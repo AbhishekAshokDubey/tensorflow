@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 21 10:22:55 2017
-
-@author: ADubey4
-"""
 
 #links:
-#    https://pymotw.com/2/getopt/
+#https://pymotw.com/2/getopt/
 #https://scrapy.org/
 
 import sys, os, getopt
