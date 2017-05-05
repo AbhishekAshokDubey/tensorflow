@@ -40,6 +40,7 @@ with tf.name_scope("loss"):
     nce_weight = tf.Variable(tf.truncated_normal([vocab_size, embed_size], stddev = 1.0/ math.sqrt(embed_size)), name= "nce_weights")
     nce_bias = tf.Variable(tf.zeros([vocab_size]), name = "nce_bias")
     loss = tf.reduce_mean(tf.nn.nce_loss(weights = nce_weight, biases= nce_bias, labels=target_words, inputs=embed, num_sampled=100, num_classes=vocab_size ),name="loss")
+#    loss = tf.reduce_mean(tf.nn.sampled_softmax_loss(weights = nce_weight, biases= nce_bias, labels=target_words, inputs=embed, num_sampled=100, num_classes=vocab_size ),name="loss")
     
 optimizer = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
 
