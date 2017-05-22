@@ -39,8 +39,8 @@ word2index_dict = {}
 reverse_encoder_input = True
 
 # Training or Predicting
-#train = False
-train = True
+train = False
+#train = True
 
 # Training parameters
 batch_size = 10;
@@ -158,7 +158,7 @@ with tf.Session() as sess:
         if ckpt and ckpt.model_checkpoint_path:
             saver.restore(sess, ckpt.model_checkpoint_path)
             print(ckpt.model_checkpoint_path)
-            input_sent = "what do you do"
+            input_sent = "How are you"
             input_sent_list = input_sent.lower().strip().split(" ")
             encoded_input = [word2index_dict[x] for x in (input_sent_list + ["PAD"]* (max_encoder_length - len(input_sent_list)))]
             if reverse_encoder_input:
@@ -168,9 +168,12 @@ with tf.Session() as sess:
             for l in range(max_decoder_length):
                 input_feed_dict[decoder_inputs_t[l].name] = [word2index_dict["GO"]]
             
-            output = tf.squeeze(tf.stack(output))
-            sentence = tf.matmul(output, output_projection[0]) + output_projection[1]
-            sentence = tf.argmax(sentence, axis=1)
-            sentence_val = sess.run(sentence,input_feed_dict)
-            reply = " ".join([index2word_list[x] for x in sentence_val])
-            print(reply)
+#            output = tf.squeeze(tf.stack(output))
+#            sentence = tf.matmul(output, output_projection[0]) + output_projection[1]
+#            sentence = tf.argmax(sentence, axis=1)
+#            sentence_val = sess.run(sentence,input_feed_dict)
+            sentence_logits = sess.run(output_logit,input_feed_dict)
+            print(" ".join([index2word_list[x[0].argsort()[-1]] for x in sentence_logits]))
+#            a.argsort()[-2]
+#            reply = " ".join([index2word_list[x] for x in sentence_val])
+#            print(reply)
